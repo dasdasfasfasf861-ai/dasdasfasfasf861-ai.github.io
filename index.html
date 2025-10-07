@@ -1,0 +1,1124 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>VelionRust — Играй с комфортом | Открытие 25 ноября 16:00 по МСК</title>
+  <meta name="description" content="VelionRust - Уникальный проект в игре Rust на 266 девблоге.">
+    <meta name="keywords" content="VelionRust, survival игра, постапокалипсис, Rust, PvP, крафтинг, базы, Этерия, игровой сервер">
+    <meta name="author" content="Velion Studio Corporation">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#ff4e3b">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://rust.velion.site/">
+    <meta property="og:title" content="VelionRust - Энергия Металла">
+    <meta property="og:description" content="Инновационный survival проект с уникальной механикой Этерии. Открытие 25 ноября 2025 года.">
+    <meta property="og:image" content="https://rust.velion.site/assets/og-image.png">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/logo.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/logo.png">
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://rust.velion.site/">
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "VideoGame",
+      "name": "VelionRust",
+      "url": "https://rust.velion.site/",
+      "logo": "https://rust.velion.site/assets/logo.png",
+      "description": "Постапокалиптический survival проект с уникальной механикой Этерии и динамической экономикой",
+      "gamePlatform": "PC",
+      "applicationCategory": "Game",
+      "genre": ["Survival", "Action", "PvP", "Sandbox"],
+      "operatingSystem": "Windows",
+      "datePublished": "2025-11-25",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Velion Project Corporation"
+      },
+      "author": {
+        "@type": "Organization",
+        "name": "Velion Project Corporation"
+      },
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    }
+    </script>
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Rubik:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <style>
+:root{
+  --velion-dark:#050506;
+  --velion-panel:#0b0b0c;
+  --accent:#ff4e3b;
+  --accent-2:#ff8a65;
+  --muted:#cfcfcf;
+  --glass: rgba(255,255,255,0.03);
+}
+html,body{height:100%}
+body{
+  margin:0;
+  background:var(--velion-dark);
+  color:#e8e8e8;
+  font-family:'Rubik',sans-serif;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  overflow-x:hidden;
+}
+
+/* HERO (обновлён) */
+.hero{
+  position:relative;
+  height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  overflow:hidden;
+}
+.hero video{position:absolute;top:50%;left:50%;min-width:100%;min-height:100%;transform:translate(-50%,-50%);object-fit:cover;opacity:0.45;pointer-events:none}
+.hero-overlay{position:absolute;inset:0;background:radial-gradient(circle at 50% 50%, rgba(255,78,59,0.18), rgba(0,0,0,0.9) 80%);z-index:1;animation:glowFade 12s infinite alternate}
+@keyframes glowFade{0%{opacity:0.32}100%{opacity:0.7}}
+.hero-content{position:relative;z-index:2;padding:0 1rem}
+.neon{font-family:'Orbitron',sans-serif;text-shadow:0 0 20px rgba(255,78,59,0.85);letter-spacing:6px}
+.neon .sub{color:#f3f3f3;letter-spacing:8px}
+
+.glow-btn{background:linear-gradient(90deg,var(--accent),#c93c3c);box-shadow:0 6px 40px rgba(255,78,59,.16);transition:transform .18s;display:inline-block}
+.glow-btn:hover{transform:translateY(-3px) scale(1.02)}
+
+/* ASH */
+.ash{position:fixed;inset:0;pointer-events:none;z-index:60;overflow:hidden}
+.ash span{position:absolute;width:2px;height:8px;background:rgba(255,255,255,0.12);border-radius:2px;animation:fall linear infinite}
+@keyframes fall{0%{transform:translateY(-15vh) rotate(0);opacity:0}10%{opacity:.85}100%{transform:translateY(110vh) rotate(220deg);opacity:0}}
+
+/* COMMON */
+.section{padding:4.5rem 1.25rem}
+.container{max-width:1200px;margin:0 auto}
+.section-title{font-family:'Orbitron',sans-serif;color:var(--accent);letter-spacing:2px;font-size:1.9rem;margin-bottom:1.1rem;text-shadow:0 0 24px rgba(255,78,59,0.12)}
+.muted{color:var(--muted)}
+
+.panel{
+  background:linear-gradient(180deg,rgba(12,12,14,0.88),rgba(6,6,7,0.75));
+  border:1px solid rgba(255,78,59,0.06);
+  box-shadow:0 8px 40px rgba(0,0,0,0.6);
+  border-radius:14px;padding:1.25rem;
+  backdrop-filter: blur(8px);
+}
+
+/* FEATURES */
+.features{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1.25rem}
+.feature{position:relative;overflow:hidden;border-radius:12px;padding:1.5rem;transition:transform .35s,box-shadow .35s}
+.feature:hover{transform:translateY(-8px);box-shadow:0 30px 80px rgba(0,0,0,.6)}
+.feature .badge{position:absolute;top:12px;right:12px;padding:.45rem .7rem;border-radius:999px;background:rgba(255,78,59,0.08);border:1px solid rgba(255,78,59,0.12);font-weight:600;color:var(--accent-2);font-size:.78rem}
+
+/* ENGINE */
+.engine{display:grid;grid-template-columns:1fr 420px;gap:1.5rem;align-items:center}
+.core-circle{width:220px;height:220px;border-radius:999px;display:flex;align-items:center;justify-content:center;font-family:'Orbitron',sans-serif;color:#fff;font-weight:700;letter-spacing:6px;transform:rotate(-6deg);box-shadow:0 0 60px rgba(255,78,59,0.06);border:1px solid rgba(255,78,59,0.06)}
+.engine-list{margin-top:0.5rem;color:var(--muted)}
+.engine-list li{margin-bottom:.6rem}
+
+/* COMMUNITY */
+.community{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+.community-card{text-align:center;padding:1rem;border-radius:10px}
+
+/* ROADMAP */
+.timeline{
+  display:grid;
+  grid-template-columns: 1fr;
+  gap:1rem;
+}
+.timeline-item{
+  display:grid;
+  grid-template-columns: 120px 1fr 140px;
+  gap:16px;
+  align-items:center;
+  padding:14px;
+  border-radius:12px;
+  background:linear-gradient(180deg, rgba(255,78,59,0.02), transparent);
+  border:1px solid rgba(255,78,59,0.04);
+}
+.timeline-date{font-family:'Orbitron',sans-serif;color:var(--accent-2);font-weight:700}
+.timeline-content h4{margin:0;color:#fff;font-weight:700}
+.timeline-content p{margin:6px 0 0;color:var(--muted)}
+.timeline-status{text-align:right}
+.chip{
+  display:inline-block;padding:.35rem .7rem;border-radius:999px;font-weight:700;font-size:.78rem;
+}
+.chip.planned{background:rgba(255,255,255,0.03);color:#ddd;border:1px solid rgba(255,255,255,0.02)}
+.chip.progress{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#111}
+.chip.live{background:linear-gradient(90deg,#4ade80,#0ea5a3);color:#041014}
+.progress-wrap{height:8px;background:rgba(255,255,255,0.04);border-radius:999px;margin-top:10px;overflow:hidden;border:1px solid rgba(255,255,255,0.02)}
+.progress-bar{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent-2));width:0;transition:width .9s cubic-bezier(.2,.9,.3,1)}
+
+/* STORE */
+.store{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem}
+.store-card{text-align:center;padding:1rem;border-radius:12px}
+.price{display:inline-block;margin-top:.7rem;padding:.5rem .8rem;border-radius:8px;background:rgba(255,78,59,0.08);border:1px solid rgba(255,78,59,0.08);color:#ffd7c9;font-weight:700}
+
+/* FOOTER */
+footer{
+  position:relative;
+  background:linear-gradient(180deg,#060607 0%, #030303 100%);
+  padding:5rem 1.25rem 2.5rem;
+  overflow:hidden;
+  border-top:1px solid rgba(255,78,59,0.05);
+}
+.footer-grid{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:1rem;align-items:start;position:relative;z-index:3}
+.footer-brand h2{font-family:'Orbitron',sans-serif;font-size:1.8rem;background:linear-gradient(90deg,var(--accent),#ffb07f);-webkit-background-clip:text;color:transparent;letter-spacing:2px}
+.footer-brand p{color:var(--muted);margin-top:.6rem}
+.footer-socials{display:flex;gap:.6rem;margin-top:1rem}
+.footer-socials a{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:10px;background:rgba(255,78,59,0.03);border:1px solid rgba(255,78,59,0.04);color:var(--accent);text-decoration:none;transition:all .4s cubic-bezier(.16,.8,.25,1)}
+.footer-column h4{font-family:'Orbitron',sans-serif;color:var(--accent-2);letter-spacing:1px;margin-bottom:.6rem}
+.footer-column a{display:block;color:var(--muted);text-decoration:none;margin-bottom:.5rem;position:relative;transition:all .35s cubic-bezier(.16,.8,.25,1)}
+.footer-column a::after{content:'';position:absolute;left:0;bottom:-2px;width:0;height:2px;background:linear-gradient(90deg,var(--accent),var(--accent-2));transition:width .35s cubic-bezier(.16,.8,.25,1);border-radius:1px}
+.footer-legal{margin-top:1rem;color:#9a9a9a;font-size:.85rem}
+
+/* Newsletter & Partners */
+.newsletter{display:flex;gap:10px;align-items:center}
+.newsletter input{flex:1;padding:.75rem;border-radius:10px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:#fff}
+.newsletter button{padding:.6rem .9rem;border-radius:8px;background:linear-gradient(90deg,var(--accent),var(--accent-2));border:none;color:#041014;font-weight:700}
+.partners{display:flex;gap:.6rem;flex-wrap:wrap;margin-top:.8rem}
+.partner-badge{width:72px;height:36px;border-radius:8px;background:rgba(255,255,255,0.02);display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--muted);border:1px solid rgba(255,255,255,0.02);transition:all .35s cubic-bezier(.16,.8,.25,1)}
+
+/* energy bar */
+.energy-bar{position:absolute;left:50%;transform:translateX(-50%);bottom:100%;width:70%;height:6px;background:linear-gradient(90deg,rgba(255,255,255,0.03),transparent);border-radius:999px;margin-bottom:16px;overflow:hidden}
+.energy-fill{height:100%;width:40%;background:linear-gradient(90deg,var(--accent),var(--accent-2));box-shadow:0 6px 40px rgba(255,78,59,0.08);transition:width .9s ease, box-shadow .4s ease, transform .4s ease}
+
+/* footer bottom */
+.footer-bottom{margin-top:2.2rem;text-align:center;color:#9a9a9a;font-size:.9rem}
+
+/* Footer hover animations */
+.footer-column a:hover{color:#fff;transform:translateY(-2px) scale(1.02)}
+.footer-column a:hover::after{width:100%}
+.footer-socials a:hover{background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#fff;transform:scale(1.15) translateY(-3px) rotate(-3deg);box-shadow:0 10px 40px rgba(255,78,59,0.25)}
+.partner-badge:hover{transform:scale(1.08) translateY(-2px);box-shadow:0 6px 20px rgba(255,78,59,0.18);background:linear-gradient(135deg,rgba(255,78,59,0.1),rgba(255,138,101,0.1));color:#fff}
+footer:hover .energy-fill{box-shadow:0 8px 60px rgba(255,78,59,0.2);transform:scaleY(1.2)}
+.footer-bottom a:hover{color:#fff;text-decoration:underline;transform:translateY(-1px)}
+
+/* NEW: Countdown Timer */
+.countdown {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin: 2rem 0;
+  flex-wrap: wrap;
+}
+
+.countdown-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: rgba(255, 78, 59, 0.08);
+  border-radius: 12px;
+  padding: 1rem;
+  min-width: 80px;
+  border: 1px solid rgba(255, 78, 59, 0.12);
+}
+
+.countdown-value {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--accent);
+  text-shadow: 0 0 10px rgba(255, 78, 59, 0.5);
+}
+
+.countdown-label {
+  font-size: 0.8rem;
+  color: var(--muted);
+  margin-top: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* NEW: Mobile Navigation */
+.mobile-menu {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(5, 5, 6, 0.95);
+  z-index: 100;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  backdrop-filter: blur(10px);
+}
+
+.mobile-menu.active {
+  display: flex;
+}
+
+.mobile-menu a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 1.5rem;
+  margin: 1rem 0;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  font-family: 'Orbitron', sans-serif;
+}
+
+.mobile-menu a:hover {
+  background: rgba(255, 78, 59, 0.2);
+  transform: translateY(-3px);
+}
+
+.menu-toggle {
+  display: none;
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 101;
+  background: rgba(255, 78, 59, 0.1);
+  border: 1px solid rgba(255, 78, 59, 0.3);
+  color: var(--accent);
+  width: 50px;
+  height: 50px;
+  border-radius: 8px;
+  font-size: 1.5rem;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+}
+
+/* NEW: Preloader */
+.preloader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--velion-dark);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  transition: opacity 0.5s ease;
+}
+
+.preloader-logo {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 3rem;
+  font-weight: 700;
+  color: var(--accent);
+  text-shadow: 0 0 20px rgba(255, 78, 59, 0.8);
+  margin-bottom: 2rem;
+  letter-spacing: 6px;
+}
+
+.loading-bar {
+  width: 200px;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.loading-progress {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  border-radius: 2px;
+  transition: width 0.3s ease;
+}
+
+/* NEW: Scroll to top button */
+.scroll-top {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 50px;
+  height: 50px;
+  background: rgba(255, 78, 59, 0.1);
+  border: 1px solid rgba(255, 78, 59, 0.3);
+  color: var(--accent);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 99;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+}
+
+.scroll-top.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.scroll-top:hover {
+  background: rgba(255, 78, 59, 0.2);
+  transform: translateY(-3px);
+}
+
+/* NEW: Notification banner */
+.notification-banner {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  color: #041014;
+  text-align: center;
+  padding: 10px;
+  font-weight: 700;
+  z-index: 98;
+  transform: translateY(-100%);
+  transition: transform 0.5s ease;
+}
+
+.notification-banner.active {
+  transform: translateY(0);
+}
+
+/* NEW: Release Date Highlight */
+.release-date {
+  background: linear-gradient(90deg, rgba(255,78,59,0.1), rgba(255,138,101,0.1));
+  border: 1px solid rgba(255,78,59,0.2);
+  border-radius: 12px;
+  padding: 1.5rem;
+  text-align: center;
+  margin: 2rem 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.release-date::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(45deg, transparent, rgba(255,78,59,0.05), transparent);
+  animation: shimmer 3s infinite;
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+.release-date h3 {
+  font-family: 'Orbitron', sans-serif;
+  color: var(--accent);
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+  text-shadow: 0 0 10px rgba(255,78,59,0.3);
+}
+
+.release-date p {
+  font-size: 1.2rem;
+  color: #fff;
+  margin: 0;
+  font-weight: 600;
+}
+
+/* NEW: Feature Icons */
+.feature-icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+  background: linear-gradient(135deg, rgba(255,78,59,0.1), rgba(255,138,101,0.1));
+  border: 1px solid rgba(255,78,59,0.2);
+  font-size: 1.5rem;
+  color: var(--accent);
+}
+
+/* Responsive */
+@media (max-width:1024px){.engine{grid-template-columns:1fr 360px}}
+@media (max-width:900px){.community{grid-template-columns:repeat(2,1fr)} .footer-grid{grid-template-columns:1fr 1fr;gap:1rem}}
+@media (max-width:768px){
+  .menu-toggle { display: flex; }
+  .timeline-item { grid-template-columns: 1fr; gap: 10px; }
+  .timeline-status { text-align: left; }
+  .engine { grid-template-columns: 1fr; }
+  .countdown-item { min-width: 60px; padding: 0.5rem; }
+  .countdown-value { font-size: 1.5rem; }
+  .hero h1 { font-size: 2.5rem !important; }
+  .hero p { font-size: 1rem !important; }
+  .section { padding: 2.5rem 1rem; }
+  .release-date { padding: 1rem; }
+  .release-date h3 { font-size: 1.2rem; }
+  .release-date p { font-size: 1rem; }
+  .feature-icon { width: 50px; height: 50px; font-size: 1.2rem; }
+}
+@media (max-width:640px){.community{grid-template-columns:1fr} .footer-grid{grid-template-columns:1fr}}
+</style>
+<style>
+.project-notification {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(5, 5, 6, 0.95);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.5s ease;
+  backdrop-filter: blur(10px);
+}
+
+.project-notification.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.notification-content {
+  background: linear-gradient(135deg, rgba(12,12,14,0.95), rgba(6,6,7,0.98));
+  border: 1px solid rgba(255,78,59,0.2);
+  border-radius: 20px;
+  padding: 2.5rem;
+  max-width: 500px;
+  width: 90%;
+  text-align: center;
+  position: relative;
+  transform: translateY(30px);
+  transition: transform 0.5s ease;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+}
+
+.project-notification.active .notification-content {
+  transform: translateY(0);
+}
+
+.notification-icon {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(255,78,59,0.15), rgba(255,138,101,0.1));
+  border: 2px solid rgba(255,78,59,0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.5rem;
+  font-size: 2rem;
+  color: var(--accent);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba(255,78,59,0.4); }
+  70% { box-shadow: 0 0 0 15px rgba(255,78,59,0); }
+  100% { box-shadow: 0 0 0 0 rgba(255,78,59,0); }
+}
+
+.notification-content h3 {
+  font-family: 'Orbitron', sans-serif;
+  color: var(--accent);
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  text-shadow: 0 0 15px rgba(255,78,59,0.3);
+}
+
+.notification-content p {
+  color: var(--muted);
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
+}
+
+.notification-countdown {
+  display: flex;
+  justify-content: center;
+  gap: 0.8rem;
+  margin: 1.5rem 0;
+}
+
+.notification-countdown-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: rgba(255, 78, 59, 0.08);
+  border-radius: 10px;
+  padding: 0.8rem;
+  min-width: 60px;
+  border: 1px solid rgba(255, 78, 59, 0.15);
+}
+
+.notification-countdown-value {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--accent);
+  text-shadow: 0 0 8px rgba(255,78,59,0.4);
+}
+
+.notification-countdown-label {
+  font-size: 0.7rem;
+  color: var(--muted);
+  margin-top: 0.3rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.notification-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 1.5rem;
+}
+
+.notification-btn {
+  padding: 0.8rem 1.5rem;
+  border-radius: 10px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  border: none;
+  cursor: pointer;
+  font-family: 'Rubik', sans-serif;
+}
+
+.notification-btn.primary {
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  color: #041014;
+}
+
+.notification-btn.secondary {
+  background: rgba(255,255,255,0.05);
+  color: var(--muted);
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+.notification-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(255,78,59,0.3);
+}
+
+.notification-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  color: var(--muted);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 1.2rem;
+}
+
+.notification-close:hover {
+  background: rgba(255,78,59,0.1);
+  color: var(--accent);
+  transform: rotate(90deg);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .notification-content {
+    padding: 2rem 1.5rem;
+  }
+  
+  .notification-icon {
+    width: 70px;
+    height: 70px;
+    font-size: 1.7rem;
+  }
+  
+  .notification-content h3 {
+    font-size: 1.5rem;
+  }
+  
+  .notification-countdown-item {
+    min-width: 50px;
+    padding: 0.6rem;
+  }
+  
+  .notification-countdown-value {
+    font-size: 1.2rem;
+  }
+  
+  .notification-actions {
+    flex-direction: column;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- Preloader -->
+<div class="preloader" id="preloader">
+  <div class="preloader-logo">VELION RUST</div>
+  <div class="loading-bar">
+    <div class="loading-progress" id="loadingProgress"></div>
+  </div>
+</div>
+
+<!-- Notification Banner -->
+<div class="notification-banner" id="notificationBanner">
+  Официальное открытие проекта состоится 25 ноября в 16:00 по МСК!
+</div>
+
+
+<!-- HERO -->
+<section class="hero">
+  <video autoplay muted loop playsinline preload="auto">
+    <source src="assets/bg.mp4" type="video/mp4">
+    Ваш браузер не поддерживает видеофон.
+  </video>
+  <div class="hero-overlay"></div>
+
+  <div class="hero-content max-w-4xl px-6">
+    <h1 class="neon text-6xl md:text-7xl font-bold mb-4">
+      V E L I O N <span class="sub">R U S T</span>
+    </h1>
+    <p class="muted text-lg md:text-xl max-w-2xl mx-auto mb-4">Начни играть с комфортом и удобством.</p>
+
+    <div class="countdown" id="countdown">
+      <div class="countdown-item">
+        <div class="countdown-value" id="days">00</div>
+        <div class="countdown-label">Дней</div>
+      </div>
+      <div class="countdown-item">
+        <div class="countdown-value" id="hours">00</div>
+        <div class="countdown-label">Часов</div>
+      </div>
+      <div class="countdown-item">
+        <div class="countdown-value" id="minutes">00</div>
+        <div class="countdown-label">Минут</div>
+      </div>
+      <div class="countdown-item">
+        <div class="countdown-value" id="seconds">00</div>
+        <div class="countdown-label">Секунд</div>
+      </div>
+    </div>
+    
+    <p class="text-lg font-semibold mb-8" style="color: var(--accent-2); text-shadow: 0 0 10px rgba(255, 138, 101, 0.5);">
+      Официальное открытие: <span class="text-white">25 ноября в 16:00 по МСК</span>
+    </p>
+    
+    <div class="flex justify-center gap-5 flex-wrap">
+      <a href="#" class="glow-btn px-8 py-3 rounded-lg text-white font-semibold uppercase tracking-widest">Играть</a>
+      <a href="https://discord.gg/7jYu3AJkuB" class="px-8 py-3 rounded-lg border border-orange-600 text-orange-400 hover:bg-orange-500/10 transition uppercase font-semibold">Discord</a>
+    </div>
+  </div>
+</section>
+
+<div class="ash" aria-hidden="true"></div>
+
+<section class="section bg-[#080809]">
+  <div class="container">
+    <div class="release-date">
+      <h3>ОФИЦИАЛЬНЫЙ СТАРТ ПРОЕКТА</h3>
+      <p>25 ноября в 16:00 по московскому времени</p>
+    </div>
+  </div>
+</section>
+
+<!-- О МИРЕ VELION -->
+<section class="section bg-[#080809]">
+  <div class="container">
+    <h2 class="section-title text-center">О мире Velion</h2>
+    <p class="muted text-center max-w-3xl mx-auto mb-8">Войдите в мир, где технологии и магия переплетаются, создавая уникальный игровой опыт.</p>
+
+    <div class="grid md:grid-cols-2 gap-8 items-center">
+      <div>
+        <p class="muted mb-4">Velion — это не просто игровой сервер, это целая экосистема, созданная для настоящих ценителей выживания в постапокалиптическом мире. Наш проект сочетает в себе лучшие традиции жанра с уникальными разработками, которые делают геймплей интереснее, но не нарушают ванильную атмосферу.</p>
+        <p class="muted mb-4">Мы создали специально разработанную карту Barren с идеальным балансом ресурсов и стратегических точек, чтобы каждый игрок мог найти свой уникальный путь к успеху.</p>
+        <div class="mt-6">
+          <a href="#" class="glow-btn px-6 py-3 rounded-lg text-white font-semibold uppercase tracking-wide">Присоединиться</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="features">
+
+  <div class="container">
+    <h2 class="section-title text-center">Наши особенности</h2>
+    <p class="muted text-center max-w-2xl mx-auto mb-8">Мы создали идеальные условия для комфортной игры и развития сообщества.</p>
+
+    <div class="features">
+      <div class="panel feature">
+        <div class="feature-icon">
+          <i class="fas fa-map"></i>
+        </div>
+        <h3 class="text-lg font-semibold" style="color:var(--accent-2)">Уникальная Barren карта</h3>
+        <p class="muted mt-2">Специально разработанная карта с идеальным балансом ресурсов и стратегических точек.</p>
+      </div>
+
+      <div class="panel feature">
+        <div class="feature-icon">
+          <i class="fas fa-tachometer-alt"></i>
+        </div>
+        <h3 class="text-lg font-semibold" style="color:var(--accent-2)">Высокая производительность</h3>
+        <p class="muted mt-2">Мощное железо обеспечивает стабильный fps без лагов и задержек даже при полном онлайне.</p>
+      </div>
+
+      <div class="panel feature">
+        <div class="feature-icon">
+          <i class="fas fa-shield-alt"></i>
+        </div>
+        <h3 class="text-lg font-semibold" style="color:var(--accent-2)">Защита от читов</h3>
+        <p class="muted mt-2">Продвинутая система античита с ежедневными обновлениями и круглосуточным мониторингом.</p>
+      </div>
+
+      <div class="panel feature">
+        <div class="feature-icon">
+          <i class="fas fa-users-cog"></i>
+        </div>
+        <h3 class="text-lg font-semibold" style="color:var(--accent-2)">Активная администрация</h3>
+        <p class="muted mt-2">Команда опытных администраторов всегда на сервере и готова помочь в любой ситуации.</p>
+      </div>
+
+      <div class="panel feature">
+        <div class="feature-icon">
+          <i class="fas fa-puzzle-piece"></i>
+        </div>
+        <h3 class="text-lg font-semibold" style="color:var(--accent-2)">Кастомные плагины</h3>
+        <p class="muted mt-2">Уникальные разработки, которые делают геймплей интереснее, но не нарушают ванильную атмосферу.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="community">
+  <div class="container">
+    <h2 class="section-title text-center">Сообщество</h2>
+    <p class="muted text-center max-w-3xl mx-auto mb-6">Турниры, партнёры — инфраструктура для роста контента и монетизации стримеров и создателей.</p>
+
+    <div class="community">
+      <div class="panel community-card">
+        <h4 class="font-semibold" style="color:var(--accent-2)"><i class="fab fa-discord"></i> Discord</h4>
+        <p class="muted mt-2">Каналы кланов, поддержка и ивенты.</p>
+        <div class="mt-4"><a class="glow-btn px-4 py-2 rounded text-xs uppercase font-semibold" href="https://discord.gg/7jYu3AJkuB">Вступить</a></div>
+      </div>
+
+      <div class="panel community-card">
+        <h4 class="font-semibold" style="color:var(--accent-2)"><i class="fab fa-telegram"></i> Telegram</h4>
+        <p class="muted mt-2">Регулярно постим уникальный контент и спойлеры.</p>
+        <div class="mt-4"><a class="px-4 py-2 rounded border border-orange-600 text-xs uppercase" href="https://t.me/velionrust">Узнать болше</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+<footer>
+  <div class="energy-bar" aria-hidden="true"><div class="energy-fill" id="energyFill" style="width:62%"></div></div>
+
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="flex items-center gap-4 mb-3">
+        <h2 class="flex items-center gap-3">
+          VELION<span>RUST</span>
+          <img src="assets/logo.png" alt="VelionRust Logo" class="w-12 h-12 object-contain" onerror="this.style.display='none'">
+        </h2>
+      </div>
+      <p class="muted">Официальный сайт и центр ресурсов проекта.</p>
+
+      <div class="footer-socials flex gap-3 mt-3">
+        <a href="https://discord.gg/7jYu3AJkuB" title="Discord" class="w-11 h-11 flex items-center justify-center rounded-lg bg-[rgba(255,78,59,0.03)] border border-[rgba(255,78,59,0.04)] text-accent hover:bg-gradient-to-br hover:from-orange-500 hover:to-orange-400 hover:text-white transform transition-all duration-300 hover:scale-110 hover:-translate-y-1">
+          <i class="fab fa-discord"></i>
+        </a>
+        <a href="https://t.me/velionrust" title="Telegram" class="w-11 h-11 flex items-center justify-center rounded-lg bg-[rgba(255,78,59,0.03)] border border-[rgba(255,78,59,0.04)] text-accent hover:bg-gradient-to-br hover:from-orange-500 hover:to-orange-400 hover:text-white transform transition-all duration-300 hover:scale-110 hover:-translate-y-1">
+          <i class="fab fa-telegram"></i>
+        </a>
+      </div>
+
+      <div class="partners flex gap-2 flex-wrap mt-3">
+        <div class="partner-badge w-18 h-9 flex items-center justify-center rounded-lg bg-[rgba(255,255,255,0.02)] border border-[rgba(255,255,255,0.02)] font-semibold text-muted transition-transform duration-300 hover:scale-105 hover:-translate-y-1 hover:shadow-lg hover:bg-gradient-to-br hover:from-orange-500/10 hover:to-orange-400/10 hover:text-white">
+          266ㅤDEVBLOG
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-column">
+      <h4>Навигация</h4>
+      <a href="#">Главная</a>
+      <a href="#features">Особенности</a>
+      <a href="#community">Сообщество</a>
+    </div>
+    <div class="footer-column">
+      <h4>Компания</h4>
+      <a href="https://studio.velion.site">Velion Studios</a>
+      <a href="https://studio.velion.site/#team">Команда</a>
+      <a href="https://roadmap.velion.site">Карьера</a>
+    </div>
+    <div class="footer-column">
+      <h4>Контакты</h4>
+      <a href="mailto:contact@velionrust.com">contact@velionrust.com</a>
+    </div>
+  </div>
+
+  <div class="footer-bottom container" style="max-width:1200px;margin-top:28px">
+    <div style="height:1px;width:70%;margin:0 auto;background:linear-gradient(90deg,transparent,var(--accent),transparent);opacity:.5"></div>
+    <div style="margin-top:12px">
+      <small>© 2025 <strong>VELION PROJECT CORPORATION</strong>. Все права защищены.</small>
+      <div class="muted" style="margin-top:6px;font-style:italic">Создано с пламенем ⚙ Этерии — официальный сайт проекта</div>
+    </div>
+  </div>
+</footer>
+
+<div class="scroll-top" id="scrollTop">
+  <i class="fas fa-chevron-up"></i>
+</div>
+
+<script>
+  window.addEventListener('load', function() {
+    const preloader = document.getElementById('preloader');
+    const loadingProgress = document.getElementById('loadingProgress');
+
+    let progress = 0;
+    const interval = setInterval(() => {
+      progress += Math.random() * 15;
+      if (progress >= 100) {
+        progress = 100;
+        clearInterval(interval);
+        setTimeout(() => {
+          preloader.style.opacity = '0';
+          setTimeout(() => {
+            preloader.style.display = 'none';
+            document.getElementById('notificationBanner').classList.add('active');
+          }, 500);
+        }, 500);
+      }
+      loadingProgress.style.width = `${progress}%`;
+    }, 200);
+  });
+
+  function updateCountdown() {
+    const targetDate = new Date('November 25, 2025 13:00:00 GMT+00:00').getTime();
+    const now = new Date().getTime();
+    const timeLeft = targetDate - now;
+    
+    if (timeLeft > 0) {
+      const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+      
+      document.getElementById('days').textContent = days.toString().padStart(2, '0');
+      document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+      document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+      document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+    } else {
+      document.getElementById('countdown').innerHTML = '<div class="text-2xl font-bold" style="color: var(--accent)">Проект открыт!</div>';
+    }
+  }
+
+  setInterval(updateCountdown, 1000);
+  updateCountdown(); 
+
+  document.getElementById('menuToggle').addEventListener('click', function() {
+    const mobileMenu = document.getElementById('mobileMenu');
+    const icon = this.querySelector('i');
+    
+    mobileMenu.classList.toggle('active');
+    if (mobileMenu.classList.contains('active')) {
+      icon.classList.remove('fa-bars');
+      icon.classList.add('fa-times');
+    } else {
+      icon.classList.remove('fa-times');
+      icon.classList.add('fa-bars');
+    }
+  });
+
+  const scrollTopBtn = document.getElementById('scrollTop');
+  
+  window.addEventListener('scroll', function() {
+    if (window.pageYOffset > 300) {
+      scrollTopBtn.classList.add('active');
+    } else {
+      scrollTopBtn.classList.remove('active');
+    }
+  });
+  
+  scrollTopBtn.addEventListener('click', function() {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  });
+
+  (function(){
+    const observer = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{
+        if(e.isIntersecting){
+          e.target.style.transform='translateY(0)';
+          e.target.style.opacity='1';
+        }
+      });
+    },{threshold:.12});
+    document.querySelectorAll('.panel, .section-title, .feature, .panel').forEach(el=>{
+      el.style.transform='translateY(18px)';
+      el.style.opacity='0';
+      el.style.transition='all .8s cubic-bezier(.16,.8,.25,1)';
+      observer.observe(el);
+    });
+  })();
+
+  (function(){
+    const ash = document.querySelector('.ash');
+    if(!ash) return;
+    function spawn(){
+      const s = document.createElement('span');
+      const left = Math.random()*100;
+      const size = 1 + Math.random()*3;
+      s.style.left = left + 'vw';
+      s.style.top = (-5 - Math.random()*12) + 'vh';
+      s.style.width = Math.max(1,size) + 'px';
+      s.style.height = Math.max(6,size*3) + 'px';
+      s.style.opacity = (0.06 + Math.random()*0.22);
+      s.style.transform = 'rotate(' + (Math.random()*360) + 'deg)';
+      s.style.animationDuration = (6 + Math.random()*7) + 's';
+      s.style.animationDelay = (Math.random()*2) + 's';
+      ash.appendChild(s);
+      setTimeout(()=> s.remove(), 18000);
+    }
+    setInterval(()=>{ spawn(); if(Math.random()>.66) spawn(); }, 140);
+  })();
+
+  (function(){
+    const fill = document.getElementById('energyFill');
+    if(!fill) return;
+    let dir = 1;
+    setInterval(() => {
+      const current = parseFloat(fill.style.width);
+      let next = current + (dir * (Math.random()*6 + 2));
+      if(next > 86){ next = 86; dir = -1; }
+      if(next < 36){ next = 36; dir = 1; }
+      fill.style.width = next + '%';
+    }, 4200);
+  })();
+</script>
+
+<div class="project-notification" id="projectNotification">
+  <div class="notification-content">
+    <div class="notification-close" id="notificationClose">
+      <i class="fas fa-times"></i>
+    </div>
+    
+    <div class="notification-icon">
+      <i class="fas fa-hourglass-half"></i>
+    </div>
+    
+    <h3>Проект еще не активен</h3>
+    
+    <p>Мы активно готовимся к запуску VelionRust. Официальное открытие проекта состоится:</p>
+    
+    <div class="notification-countdown">
+      <div class="notification-countdown-item">
+        <div class="notification-countdown-value" id="notifDays">00</div>
+        <div class="notification-countdown-label">Дней</div>
+      </div>
+      <div class="notification-countdown-item">
+        <div class="notification-countdown-value" id="notifHours">00</div>
+        <div class="notification-countdown-label">Часов</div>
+      </div>
+      <div class="notification-countdown-item">
+        <div class="notification-countdown-value" id="notifMinutes">00</div>
+        <div class="notification-countdown-label">Минут</div>
+      </div>
+    </div>
+    
+    <p><strong>25 ноября 2025 года в 16:00 по МСК</strong></p>
+    
+    <p>Присоединяйтесь к нашему Discord-сообществу, чтобы быть в курсе всех новостей и подготовки к запуску!</p>
+    
+    <div class="notification-actions">
+      <a href="#" class="notification-btn primary">
+        <i class="fab fa-discord"></i> Discord
+      </a>
+      <button class="notification-btn secondary" id="notificationUnderstand">
+        Понятно
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+function showProjectNotification() {
+  const notification = document.getElementById('projectNotification');
+  notification.classList.add('active');
+  document.body.style.overflow = 'hidden';
+
+  updateNotificationCountdown();
+}
+
+function hideProjectNotification() {
+  const notification = document.getElementById('projectNotification');
+  notification.classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+function updateNotificationCountdown() {
+  const targetDate = new Date('November 25, 2025 13:00:00 GMT+00:00').getTime();
+  const now = new Date().getTime();
+  const timeLeft = targetDate - now;
+  
+  if (timeLeft > 0) {
+    const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+    
+    document.getElementById('notifDays').textContent = days.toString().padStart(2, '0');
+    document.getElementById('notifHours').textContent = hours.toString().padStart(2, '0');
+    document.getElementById('notifMinutes').textContent = minutes.toString().padStart(2, '0');
+  }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  document.getElementById('notificationClose').addEventListener('click', hideProjectNotification);
+
+  document.getElementById('notificationUnderstand').addEventListener('click', hideProjectNotification);
+
+  document.getElementById('projectNotification').addEventListener('click', function(e) {
+    if (e.target === this) {
+      hideProjectNotification();
+    }
+  });
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      hideProjectNotification();
+    }
+  });
+
+  const playButtons = document.querySelectorAll('a[href="#"]');
+  playButtons.forEach(button => {
+    if (button.textContent.includes('Играть') || button.textContent.includes('Присоединиться')) {
+      button.addEventListener('click', function(e) {
+        e.preventDefault();
+        showProjectNotification();
+      });
+    }
+  });
+  
+  setInterval(updateNotificationCountdown, 60000);
+});
+</script>
+</body>
+</html>
